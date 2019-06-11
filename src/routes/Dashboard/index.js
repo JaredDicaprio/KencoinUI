@@ -8,10 +8,11 @@ import DealsClosedCard from "../../components/dashboard/Listing/DealsClosedCard"
 import {connect} from "react-redux";
 import {getUserData} from "../../appRedux/actions/User";
 import DepositForm from "./DepositForm";
+import FireBaze from "../../constants/config/FireBaze";
 
 class DashboardPage extends Component {
 
-  state = {visible: false};
+  state = {visible: false, phone: "+2547xxxxxxx"};
   showModal = () => {
     this.setState({
       visible: true,
@@ -33,7 +34,25 @@ class DashboardPage extends Component {
   };
 
   componentWillMount() {
-    getUserData()
+    getUserData();
+
+    function listenUserChange(user){
+      if (user){
+        console.log("user Defined")
+        this.setState({
+          phone: user.phoneNumber
+        })
+        console.log(this.state)
+      }else{
+        console.log("No user");
+        console.log(this.state.phone)
+      }
+    }
+
+    FireBaze.auth().onAuthStateChanged(
+      listenUserChange.bind(this)
+    )
+
   }
 
 
@@ -81,13 +100,17 @@ class DashboardPage extends Component {
             </Button>
 
             <Modal
-              title="Basic Modal"
+              title="Deposit Tokens"
               visible={this.state.visible}
-              onOk={this.handleOk}
               onCancel={this.handleCancel}
+              footer={[
+                <Button key="back" onClick={this.handleCancel}>
+                  Return
+                </Button>
+              ]}
             >
               <center>
-                <DepositForm/>
+                <DepositForm finish={this.handleCancel} account={this.state.phone}/>
               </center>
             </Modal>
 

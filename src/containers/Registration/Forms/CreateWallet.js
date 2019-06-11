@@ -129,7 +129,7 @@ class CreateWallet extends React.Component {
     };
     console.clear();
     console.log("The Final User");
-    console.log(User)
+    console.log(User);
     var synced = CreateWallet.pushData(User);
 
     if (synced.message) {
