@@ -4,7 +4,7 @@ import Widget from "components/Widget/index";
 
 const columns = [
   {
-    title: 'Account Holder Name',
+    title: 'Party Involved',
     dataIndex: 'image',
     render: (text, record) => {
       return <div className="gx-flex-row gx-align-items-center">
@@ -14,7 +14,7 @@ const columns = [
     },
   },
   {
-    title: 'Last Transfer',
+    title: 'Transfer Time',
     dataIndex: 'transfer',
     render: (text, record) => {
       return <span className="gx-text-grey">{record.transfer}</span>
@@ -22,7 +22,15 @@ const columns = [
 
   },
   {
-    title: 'Action',
+    title: 'Amount',
+    dataIndex: 'amount',
+    render: (text, record) => {
+      return <span className="gx-text-grey">{record.amount}</span>
+    },
+
+  },
+  {
+    title: 'Type',
     dataIndex: 'status',
     render: (text) => {
       return <span className="gx-text-primary gx-pointer">
@@ -33,18 +41,21 @@ const columns = [
 ];
 
 const data = [
+
   {
     key: '1',
     name: 'Jeniffer L.',
     transfer: '2 hrs. ago',
     image: 'https://via.placeholder.com/150x150',
-    status: 'Pay'
+    amount: 200,
+    status: 'Recieved'
   },
   {
     key: '2',
     name: 'Jim Green',
     transfer: '17 days ago',
     image: 'https://via.placeholder.com/150x150',
+    amount: 150,
     status: 'Pay'
   },
   {
@@ -52,6 +63,7 @@ const data = [
     name: 'Joe Black',
     transfer: '1 month ago',
     image: 'https://via.placeholder.com/150x150',
+    amount: 245,
     status: 'Pay'
   },
   {
@@ -59,7 +71,24 @@ const data = [
     name: 'Mila Alba',
     transfer: '1 month ago',
     image: 'https://via.placeholder.com/150x150',
+    amount: 175,
+    status: 'Recieved'
+  },
+  {
+    key: '5',
+    name: 'Innocent Kithinji',
+    transfer: '1 month ago',
+    image: 'https://via.placeholder.com/150x150',
+    amount: 255,
     status: 'Pay'
+  },
+  {
+    key: '4',
+    name: 'Kithinji Innocent',
+    transfer: '1 month ago',
+    image: 'https://via.placeholder.com/150x150',
+    amount: 450,
+    status: 'Recieved'
   }
 ];
 
@@ -68,11 +97,8 @@ const SendMoney = () => {
     <Widget
       title={
         <h2 className="h4 gx-text-capitalize gx-mb-0">
-          Send Money to</h2>
-      } extra={
-      <p className="gx-text-primary gx-mb-0 gx-pointer gx-d-none gx-d-sm-block">
-        <i className="icon icon-add-circle gx-fs-lg gx-d-inline-flex gx-vertical-align-middle"/> Add New Account</p>
-    }>
+          Recent Transactions</h2>
+      }>
       <div className="gx-table-responsive">
         <Table className="gx-table-no-bordered" columns={columns} dataSource={data} pagination={false}
                size="small"/>

@@ -11,6 +11,6 @@ var config = {
 };
 
 
-const Fire = firebase.initializeApp(config);
+const FireBaze = firebase.initializeApp(config);
 
-export default Fire;
+export default FireBaze;

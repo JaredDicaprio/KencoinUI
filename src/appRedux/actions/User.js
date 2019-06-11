@@ -20,6 +20,8 @@ export const getUserDataError = (error) => {
 
 
 export const getUserDataSuccess = (data) => {
+  console.log("the Data");
+  console.log(data)
   return{
     type: GET_USER_DATA_SUCCESS,
     payload: data

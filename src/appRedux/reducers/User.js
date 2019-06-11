@@ -6,7 +6,10 @@ import {
 } from '../../constants/ActionTypes'
 
 
-const INIT_STATE = {};
+const INIT_STATE = {
+  new_User: false,
+  loading: false
+};
 
 export default (state = INIT_STATE, action) => {
 

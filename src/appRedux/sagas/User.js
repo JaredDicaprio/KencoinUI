@@ -1,4 +1,4 @@
-import {GET_USER_DATA} from '../../constants/ActionTypes'
+import {GET_USER_DATA, GET_USER_DATA_SUCCESS} from '../../constants/ActionTypes'
 import axios from "axios";
 import {all, call, fork, put,takeEvery} from "redux-saga/effects";
 import {getUserDataError, getUserDataSuccess} from "../actions/User";
@@ -18,7 +18,7 @@ export function* getRequestUserData() {
     yield put(getUserDataError(user.message))
   }else {
     console.log("Success");
-    // console.log(user.data)
+    // console.log(user.data);
     yield put(getUserDataSuccess(user.data))
   }
 

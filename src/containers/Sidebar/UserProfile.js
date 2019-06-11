@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {Avatar, Popover} from "antd";
 import {connect} from "react-redux";
+import {userSignOut} from "appRedux/actions/Auth";
+
 class UserProfile extends Component {
 
   render() {
@@ -8,6 +10,8 @@ class UserProfile extends Component {
       <ul className="gx-user-popover">
         <li>My Account</li>
         <li>Connections</li>
+        <li onClick={() => this.props.userSignOut()}>Logout
+        </li>
       </ul>
     );
 
@@ -32,4 +36,4 @@ const mapStateToProps = ({user}) => {
   return {name}
 };
 
-export default connect(mapStateToProps)(UserProfile);
+export default connect(mapStateToProps,{userSignOut})(UserProfile);

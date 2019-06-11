@@ -21,15 +21,27 @@ import {
   THEME_TYPE_DARK
 } from "../../constants/ThemeSetting";
 import SignIn from "../SignIn";
+import Register from "../Registration"
+import FireBaze from "../../constants/config/FireBaze";
 
-
-const RestrictedRoute = ({component: Component, authUser, ...rest}) =>
+const RestrictedRoute = ({component: Component, authUser, newUser, ...rest}) =>
   <Route
     {...rest}
     render={props =>
       authUser
-        ? <Component {...props} />
-        : <Redirect
+        ?
+        newUser
+          ? <Redirect
+            to={{
+              pathname: '/register',
+              state: {from: props.location}
+            }}
+          />
+          :
+
+          <Component {...props} />
+        :
+        <Redirect
           to={{
             pathname: '/signin',
             state: {from: props.location}
@@ -85,16 +97,16 @@ class App extends Component {
   }
 
   render() {
-    const {match, location, themeType, layoutType, navStyle, locale, authUser, initURL} = this.props;
+    const {match, location, themeType, layoutType, navStyle, locale, authUser, new_User} = this.props;
     if (themeType === THEME_TYPE_DARK) {
       document.body.classList.add('dark-theme');
     }
 
     if (location.pathname === '/') {
-      return ( <Redirect to={'/dashboard'}/> );
+      return (<Redirect to={'/dashboard'}/>);
     }
 
-    if (location.pathname === '/signin' && authUser){
+    if (location.pathname === '/signin' && authUser != null) {
       return (<Redirect to={'/dashboard'}/>)
     }
 
@@ -111,7 +123,8 @@ class App extends Component {
 
           <Switch>
             <Route exact path='/signin' component={SignIn}/>
-            <RestrictedRoute path={`${match.url}`} authUser={authUser}
+            <Route exact path='/register' component={Register}/>
+            <RestrictedRoute path={`${match.url}`} authUser={authUser} newUser={new_User}
                              component={MainApp}/>
           </Switch>
 
@@ -122,9 +135,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({settings, auth}) => {
+const mapStateToProps = ({settings, auth, user}) => {
   const {locale, navStyle, themeType, layoutType} = settings;
   const {authUser, initURL} = auth;
-  return {locale, navStyle, themeType, layoutType, authUser, initURL}
+  const {new_User} = user;
+  return {locale, navStyle, themeType, layoutType, authUser, initURL, new_User}
 };
 export default connect(mapStateToProps, {setThemeType, onNavStyleChange, onLayoutTypeChange})(App);
