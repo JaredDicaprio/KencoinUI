@@ -8,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-
+import {connect} from 'react-redux'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -88,6 +88,7 @@ class NormalLoginForm extends Component {
   render() {
     const {getFieldDecorator} = this.props.form;
     console.log(this.props.phone);
+    console.log(this.props.address)
     return (
       <div>
         <ValidatorForm onSubmit={this.handleSubmit}>
@@ -175,12 +176,12 @@ class NormalLoginForm extends Component {
   confirmTransaction = async () => {
     console.log("Confirming Transaction");
     var data = {
-      ID: this.state.id
+      ID: this.state.id,
+      address: this.props.address,
+      amount: this.state.amount
     };
     console.log(data);
-    var reqResponse = await axios.post('http://127.0.0.1:4000/coin/confirm', {
-      ID: this.state.id
-    })
+    var reqResponse = await axios.post('http://127.0.0.1:4000/coin/confirm', data)
       .then(result => result)
       .catch(err => err);
     console.log("Confirming Transaction gg");
@@ -190,4 +191,9 @@ class NormalLoginForm extends Component {
 
 const DepositForm = Form.create({name: 'normal_login'})(NormalLoginForm);
 
-export default DepositForm
+const mapStateToProps = ({user}) => {
+  const {address} = user;
+  return {address}
+};
+
+export default connect(mapStateToProps)(DepositForm)
