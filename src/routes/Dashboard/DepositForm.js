@@ -152,7 +152,7 @@ class NormalLoginForm extends Component {
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
         >
-          <DialogTitle id="alert-dialog-slide-title">{"Use Google's location service?"}</DialogTitle>
+          <DialogTitle id="alert-dialog-slide-title">{"Enter Pin and Confirm Transaction"}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
               A push stk has been sent to {this.state.phone}. Please key in your Mpesa pin then press Confirm.
@@ -163,7 +163,7 @@ class NormalLoginForm extends Component {
             <Button onClick={this.handleClose} color="primary">
               Resend
             </Button>
-            <Button onClick={this.confirmTransaction} color="primary">
+            <Button onClick={this.confirmTransaction.bind(this)} color="primary">
               Confirm
             </Button>
           </DialogActions>
@@ -185,7 +185,9 @@ class NormalLoginForm extends Component {
       .then(result => result)
       .catch(err => err);
     console.log("Confirming Transaction gg");
-    console.log(reqResponse)
+    console.log(reqResponse);
+    this.handleClose();
+    this.props.finish()
   }
 }
 

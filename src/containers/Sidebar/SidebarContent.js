@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Menu} from "antd";
+import {Menu, Icon} from "antd";
 import {Link} from "react-router-dom";
-
 import CustomScrollbars from "util/CustomScrollbars";
 import SidebarLogo from "./SidebarLogo";
 
@@ -32,7 +31,7 @@ class SidebarContent extends Component {
   };
 
   render() {
-    const {themeType, navStyle, pathname} = this.props;
+    const {themeType, navStyle, pathname, Admin} = this.props;
     const selectedKeys = pathname.substr(1);
     const defaultOpenKeys = selectedKeys.split('/')[1];
     return (<Auxiliary>
@@ -50,14 +49,19 @@ class SidebarContent extends Component {
               theme={themeType === THEME_TYPE_LITE ? 'lite' : 'dark'}
               mode="inline">
               <Menu.Item key="dashboard">
-                <Link to="/dashboard"><i className="icon icon-widgets"/>
+                <Link to="/dashboard"><Icon type="pic-center" />
                   <IntlMessages id="Dashboard"/></Link>
               </Menu.Item>
-
-              <Menu.Item key="aboutus">
-                <Link to="/aboutus"><i className="icon icon-widgets"/>
-                  <IntlMessages id="About Us"/> </Link>
-              </Menu.Item>
+              {
+                Admin
+                  ?
+                    <Menu.Item key="admin">
+                      <Link to="/admin"><Icon type="bar-chart" />
+                        <IntlMessages id="Admin Page"/> </Link>
+                    </Menu.Item>
+                  :
+                    null
+              }
             </Menu>
           </CustomScrollbars>
         </div>
@@ -67,9 +71,10 @@ class SidebarContent extends Component {
 }
 
 SidebarContent.propTypes = {};
-const mapStateToProps = ({settings}) => {
+const mapStateToProps = ({settings, user}) => {
   const {navStyle, themeType, locale, pathname} = settings;
-  return {navStyle, themeType, locale, pathname}
+  const {Admin} = user
+  return {navStyle, themeType, locale, pathname, Admin}
 };
 export default connect(mapStateToProps)(SidebarContent);
 

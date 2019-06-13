@@ -1,28 +1,24 @@
 
 import {
-  GET_USER_DATA,
-  GET_USER_DATA_SUCCESS,
-  GET_USER_DATA_ERROR, GET_ADMIN_DATA_SUCCESS
+  GET_ADMIN_DATA_ERROR, GET_ADMIN_DATA_SUCCESS, GET_ADMIN_DATA
 } from '../../constants/ActionTypes'
 
 
 const INIT_STATE = {
-  new_User: false,
-  loading: false,
-  Admin: false,
+  loading: true,
 };
 
 export default (state = INIT_STATE, action) => {
 
   switch (action.type) {
-    case GET_USER_DATA:{
+    case GET_ADMIN_DATA:{
       return{
         ...state,
         loading: true,
       };
     }
 
-    case GET_USER_DATA_SUCCESS:{
+    case GET_ADMIN_DATA_SUCCESS:{
       return {
         ...state,
         loading: false,
@@ -30,7 +26,7 @@ export default (state = INIT_STATE, action) => {
       }
     }
 
-    case GET_USER_DATA_ERROR:{
+    case GET_ADMIN_DATA_ERROR:{
       return {
         ...state,
         loading: false

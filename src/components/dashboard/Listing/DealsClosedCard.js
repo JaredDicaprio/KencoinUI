@@ -1,7 +1,8 @@
-import React from "react";
+import React, {Component} from "react";
 import {Bar, BarChart, ResponsiveContainer, Tooltip, XAxis} from "recharts";
 import Widget from "components/Widget/index";
 import {Badge} from "antd";
+import {connect} from "react-redux";
 
 const data = [
   {name: 'JAN', DepositedCash: 200, SentCash: 600,ReceivedCash: 300,},
@@ -18,33 +19,41 @@ const data = [
   {name: 'DEC', DepositedCash: 200, SentCash: 800,ReceivedCash: 900,},
 ];
 
-const DealsClosedCard = () => {
+class DealsClosedCard extends Component{
+  render() {
+    const {Summary} = this.props;
+    return (
+      <Widget>
+        <div className="gx-dealclose-header">
+          <div>
+            <h2 className="h4 gx-mb-2">Transactions</h2>
+            <p className="gx-text-grey">This year</p>
+          </div>
+          <div className="gx-dealclose-header-right">
+            <p className="gx-mb-2"><Badge className="gx-mb-0" color="#FE9E15"/>Sent</p>
+            <p className="gx-ml-2 gx-mb-2"><Badge className="gx-mb-0" color="#038FDE"/>Deposits</p>
+            <p className="gx-ml-2 gx-mb-2"><Badge className="gx-mb-0" color="#01579B"/>Recieved</p>
+          </div>
+        </div>
+        <ResponsiveContainer width="100%" height={114}>
+          <BarChart data={Summary? Summary : data}
+                    margin={{top: 0, right: 0, left: 0, bottom: 0}}>
+            <Tooltip/>
+            <XAxis dataKey="name"/>
+            <Bar dataKey="DepositedCash" stackId="a" fill="#038FDE" barSize={8}/>
+            <Bar dataKey="SentCash" stackId="a" fill="#FE9E15" barSize={8}/>
+            <Bar dataKey="ReceivedCash" stackId="a" fill="#01579B" barSize={8}/>
+          </BarChart>
+        </ResponsiveContainer>
+      </Widget>
+    );
 
-  return (
-    <Widget>
-      <div className="gx-dealclose-header">
-        <div>
-          <h2 className="h4 gx-mb-2">Transactions</h2>
-          <p className="gx-text-grey">This year</p>
-        </div>
-        <div className="gx-dealclose-header-right">
-          <p className="gx-mb-2"><Badge className="gx-mb-0" color="#FE9E15"/>SentCash</p>
-          <p className="gx-ml-2 gx-mb-2"><Badge className="gx-mb-0"  color="#038FDE"/>Deposits</p>
-          <p className="gx-ml-2 gx-mb-2"><Badge className="gx-mb-0"    color= "#01579B"/>Recieved</p>
-        </div>
-      </div>
-      <ResponsiveContainer width="100%" height={114}>
-        <BarChart data={data}
-                  margin={{top: 0, right: 0, left: 0, bottom: 0}}>
-          <Tooltip/>
-          <XAxis dataKey="name"/>
-          <Bar dataKey="DepositedCash" stackId="a" fill="#038FDE" barSize={8}/>
-          <Bar dataKey="SentCash" stackId="a" fill="#FE9E15" barSize={8}/>
-          <Bar dataKey="ReceivedCash" stackId="a" fill="#01579B" barSize={8}/>
-        </BarChart>
-      </ResponsiveContainer>
-    </Widget>
-  );
+  }
 };
 
-export default DealsClosedCard;
+const mapStateToProps = ({user}) =>{
+  const {Summary} = user
+  return {Summary}
+};
+
+export default connect(mapStateToProps)(DealsClosedCard)

@@ -13,6 +13,8 @@ import {Button, Card, Checkbox, Form, Icon, Input, message} from "antd";
 // } from "appRedux/actions/Auth";
 import "./horizontalLoginForm.less";
 import CircularProgress from "components/CircularProgress/index";
+import axios from 'axios';
+import {getUserData} from "../../appRedux/actions/User";
 
 const FormItem = Form.Item;
 
@@ -23,8 +25,16 @@ class SendMoneyForm extends Component {
     this.props.form.validateFields((err, values) => {
       console.log("values", values);
       if (!err) {
-        this.props.showAuthLoader();
-        this.props.userSignIn(values);
+        console.log(values);
+        axios.post("http://127.0.0.1:4000/coin/send", {
+          ...values,
+          mnemonic: this.props.mnemonic
+        })
+          .then( response => {
+            console.log(response);
+            this.props.getUserData()
+          })
+          .catch(err => err)
       }
     });
   };
@@ -40,13 +50,13 @@ class SendMoneyForm extends Component {
   render() {
 
     const {getFieldDecorator} = this.props.form;
-    const {showMessage, loader, alertMessage} = this.props;
-
+    const {showMessage, loader, alertMessage, mnemonic} = this.props;
+    console.log(mnemonic)
     return (
       <Card className="gx-card" title="Send Money">
         <Form onSubmit={this.handleSubmit} className="gx-login-form gx-form-row0">
           <FormItem>
-            {getFieldDecorator('Reciever', {
+            {getFieldDecorator('recieverAddress', {
               rules: [{required: true, message: 'Please provide a the reciever'}],
             })(
               <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} placeholder="Reciever"/>
@@ -81,9 +91,10 @@ class SendMoneyForm extends Component {
 }
 
 const WrappedNormalLoginForm = Form.create()(SendMoneyForm);
-const mapStateToProps = ({auth}) => {
-  const {loader, alertMessage, showMessage, authUser} = auth;
-  return {loader, alertMessage, showMessage, authUser}
+const mapStateToProps = ({user}) => {
+  const {uid, address, balance, mnemonic} = user;
+
+  return {uid, address, balance, mnemonic}
 };
 
 // export default connect(mapStateToProps, {
@@ -96,4 +107,6 @@ const mapStateToProps = ({auth}) => {
 //   userTwitterSignIn
 // })(WrappedNormalLoginForm);
 
-export  default  connect()(WrappedNormalLoginForm);
+
+
+export  default  connect(mapStateToProps, {getUserData})(WrappedNormalLoginForm);

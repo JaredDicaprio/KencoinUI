@@ -31,19 +31,21 @@ class DashboardPage extends Component {
     this.setState({
       visible: false,
     });
+    setTimeout('', 6000)
+    this.props.getUserData()
   };
 
   componentWillMount() {
-    getUserData();
+    this.props.getUserData();
 
-    function listenUserChange(user){
-      if (user){
-        console.log("user Defined")
+    function listenUserChange(user) {
+      if (user) {
+        console.log("user Defined");
         this.setState({
           phone: user.phoneNumber
-        })
-        console.log(this.state)
-      }else{
+        });
+        // console.log(this.state)
+      } else {
         console.log("No user");
         console.log(this.state.phone)
       }
@@ -71,14 +73,20 @@ class DashboardPage extends Component {
             <center>
               <div style={{background: '#ECECEC',}}>
                 <Card title="Your Qr Code ">
-                  <QRCode value={this.props.address? this.props.address : "Hello"} size={250}/>
+                  <QRCode value={this.props.address ? this.props.address : "Hello"} size={250}/>
                   <Divider/>
-                  <center> {this.props.address? this.props.address : "Hello"}</center>
+                  <center> {this.props.address ? this.props.address : "Hello"}</center>
                 </Card>
               </div>
             </center>
           </Col>
+
           <Col xl={14} lg={20} md={2} sm={12} xs={24}>
+            <Col span={7} lg={17} md={15} sm={12} xs={24}>
+              <Button type="primary" onClick={this.showModal} style={{width: "inherit"}}>
+                Deposit
+              </Button>
+            </Col>
             <Row type="flex" gutter={16}>
               <Col span={7}>
                 <EcommerceStatus color="geekblue" icon="revenue-new" title={this.props.balance} colorTitle="primary"
@@ -94,10 +102,6 @@ class DashboardPage extends Component {
             <SendMoney/>
 
             <br/>
-
-            <Button type="primary" onClick={this.showModal}>
-              Deposit
-            </Button>
 
             <Modal
               title="Deposit Tokens"
@@ -128,4 +132,4 @@ const mapStateToProps = ({user}) => {
 
   return {uid, address, balance}
 };
-export default connect(mapStateToProps)(DashboardPage);
+export default connect(mapStateToProps, {getUserData})(DashboardPage);

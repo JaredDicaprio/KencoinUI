@@ -97,7 +97,8 @@ class App extends Component {
   }
 
   render() {
-    const {match, location, themeType, layoutType, navStyle, locale, authUser, new_User} = this.props;
+    const {match, location, themeType, layoutType, navStyle, locale, authUser, new_User, Admin} = this.props;
+    console.log("Not Initialized")
     if (themeType === THEME_TYPE_DARK) {
       document.body.classList.add('dark-theme');
     }
@@ -109,6 +110,11 @@ class App extends Component {
     if (location.pathname === '/signin' && authUser != null) {
       return (<Redirect to={'/dashboard'}/>)
     }
+
+    if (location.pathname === '/register' && !new_User) {
+      return (<Redirect to={'/dashboard'}/>)
+    }
+
 
     this.setLayoutType(layoutType);
 
@@ -138,7 +144,7 @@ class App extends Component {
 const mapStateToProps = ({settings, auth, user}) => {
   const {locale, navStyle, themeType, layoutType} = settings;
   const {authUser, initURL} = auth;
-  const {new_User} = user;
+  const {new_User, Admin} = user;
   return {locale, navStyle, themeType, layoutType, authUser, initURL, new_User}
 };
 export default connect(mapStateToProps, {setThemeType, onNavStyleChange, onLayoutTypeChange})(App);

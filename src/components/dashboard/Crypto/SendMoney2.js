@@ -14,6 +14,16 @@ const columns = [
     },
   },
   {
+    title: 'Hash',
+    dataIndex: 'image',
+    render: (text, record) => {
+      return <div className="gx-flex-row gx-align-items-center">
+        <p className="gx-mb-0">{record.transactionHash}</p>
+      </div>
+    },
+  },
+
+  {
     title: 'Time',
     dataIndex: 'time',
     render: (text, record) => {
@@ -43,12 +53,7 @@ const columns = [
 const nodat = [
 
   {
-    key: '1',
-    participant: 'No Data',
-    time: 'No Data',
-    image: 'https://via.placeholder.com/150x150',
-    amount: 'No Data',
-    type: 'No Data'
+
   },
 ];
 
@@ -76,8 +81,8 @@ class SendMoney extends Component {
   }
 }
 
-const mapStateToProps = ({user}) => {
-  const {transactions} = user;
+const mapStateToProps = ({admin}) => {
+  const {transactions} = admin;
 
   return {transactions}
 
