@@ -83,8 +83,11 @@ class DashboardPage extends Component {
 
           <Col xl={14} lg={20} md={2} sm={12} xs={24}>
             <Col span={7} lg={17} md={15} sm={12} xs={24}>
-              <Button type="primary" onClick={this.showModal} style={{width: "inherit"}}>
+              <Button type="primary" onClick={this.showModal} style={{width: "200px"}}>
                 Deposit
+              </Button>
+              <Button type="primary"  style={{width: "200px"}}>
+                Withdraw
               </Button>
             </Col>
             <Row type="flex" gutter={16}>

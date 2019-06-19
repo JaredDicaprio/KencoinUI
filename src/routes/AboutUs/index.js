@@ -20,7 +20,7 @@ class AboutUs extends React.Component{
             <Row>
               <Col xl={6} lg={12} md={12} sm={12} xs={24}>
                 <EcommerceStatus color="geekblue" icon="revenue-new" title={this.props.totalSupply} colorTitle="primary"
-                                 subTitle="Your Current Balance" colorSubTitle="grey"/>
+                                 subTitle="The Total Tokens in Supply" colorSubTitle="grey"/>
 
               </Col>
               <br/>

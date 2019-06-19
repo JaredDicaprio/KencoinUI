@@ -142,6 +142,7 @@ class NormalLoginForm extends Component {
           <Button type="Submit" onClick={this.handleSubmit}>
             Deposit
           </Button>
+
         </ValidatorForm>
 
         <Dialog
